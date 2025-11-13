@@ -1,6 +1,8 @@
 package main.java.arrays;
 
 
+import java.util.Arrays;
+
 /**
  * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
  *
@@ -25,14 +27,38 @@ package main.java.arrays;
  * Output: [0,1]
  */
 public class TwoSum {
+
+
+
     public int[] twoSum(int[] nums, int target) {
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] + nums[j] == target) {
-                    return new int[]{i, j};
+        int[] sortedArray = nums;
+        Arrays.sort(sortedArray);
+
+        //[2,7,11,15]
+
+        int initial = 0;
+        int last = nums.length-1;
+        int startIndex = 0; int endIndex =0;
+        while (initial != last) {
+            if(sortedArray[initial] + sortedArray[last] == target) {
+
+                for (int i=  0; i < nums.length; i++) {
+                    if (nums[i] == sortedArray[initial]) {
+                        startIndex = i;
+                    } else if(nums[i] == sortedArray[last]) {
+                        endIndex = i;
+                    }
                 }
+                return new int[] {startIndex, endIndex};
+            }
+            if (sortedArray[last] > target) {
+                last--;
+            } else if(sortedArray[initial] + sortedArray[last] > target) {
+                last--;
+            } else if(sortedArray[initial] + sortedArray[last] < target) {
+                initial++;
             }
         }
-        return new int[]{-1, -1}; // Return an invalid index if no solution is found
+        return null;
     }
 }
